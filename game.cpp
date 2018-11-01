@@ -30,7 +30,6 @@ void element::remove_values(const std::vector<int> &values) {
 
 bool element::check() {
     if (_maybe_values.size() == 1) {
-        std::cout << "consider x: " << pos.x << "  y:" << pos.y << "  values:" << value << std::endl;
         value = *_maybe_values.begin();
         _maybe_values.clear();
         return  true;
@@ -80,6 +79,9 @@ frame::frame(int size): _size(size) {
 
 void frame::init(const std::vector<element> &data) {
     for (auto &d : data) {
+        if(d.value == 0){
+            continue;
+        }
         _values[d.pos.y * _size + d.pos.x].value = d.value;
         _values[d.pos.y * _size + d.pos.x].remove_all();
     }
@@ -194,7 +196,6 @@ void frame::consider_only_one()
 
             for (auto value : e._maybe_values) {
                 if (!find_other_value_on_unit(others, value)) {
-                    std::cout << "consider : " << value << std::endl;
                     e.value = value;
                     e.remove_all();
                     break;
